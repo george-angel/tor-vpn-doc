@@ -20,16 +20,24 @@ Enable (systemd) sshd and tor, or rc.d or whatever gets the daemons running on y
 Create a user, leave their public key in `~/.ssh/authorized_keys`
 
 Edit: `vim /etc/tor/torrc`
+
 GOTO: `############### This section is just for location-hidden services ###`
+
 Uncomment: `HiddenServicePort 22 127.0.0.1:22`
+
 Uncomment: `HiddenServiceDir /var/lib/tor/hidden_service/`
+
 Restart tor
+
 Grab the hostname of the now running hidden service: `cat /var/lib/tor/hidden_service/hostname`
+
 Done!
 
 ##Setup - Clientside
 This varies with your needs. I have the following in `~/.xinitrc`:
+
 `autossh -f -M 20000 -Nn -D 2424 -l {{user}} {{onion-address-of-your-server}}.onion`
+
 Which will run a permanent tunnel on local 2424 to reconnect whenever disconnected (sleep, no wifi)
 
 ### SSH to internal network boxes
@@ -58,6 +66,8 @@ In patters configure patters for your network:
 Select *user proxies bsaed on their pre-defined patterns and priorities*
 
 ### Git
-Create an alias git{{domain}}: `alias git{{domain}}='git -c "http.proxy=socks://localhost:2424"'`
+Create an alias git{{domain}}: 
+
+`alias git{{domain}}='git -c "http.proxy=socks://localhost:2424"'`
 
 Use the alias to access inernal git repo (http only)
