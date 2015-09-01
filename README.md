@@ -1,15 +1,15 @@
 # How to VPN without VPN
-This aims to solve the problem of connecting to internal networks without exclusively locking your connecting to that one network as well as not having to 2FA with your phone, dongle, rain stick or a magic charm. You shoould be able to open your laptop anytime, anywhere and have secure encrypted access to the network.
+This aims to solve the problem of connecting to internal networks without exclusively locking your connection to that one network as well as not having to 2FA with your phone, dongle, rain stick or a magic charm. You shoould be able to open your laptop anytime, anywhere and have secure encrypted access to the network.
 
 ##Prerequesites
 Things you will need on your journey:
 
   - Machine inside the network running *nix with:
-      * openssh
-      * tor
+      * [openssh](http://www.openssh.com/)
+      * [tor](https://www.torproject.org/)
   - Locally you will need: 
-      * openssh
-      * tor
+      * [openssh](http://www.openssh.com/)
+      * [tor](https://www.torproject.org/)
       * [connect](https://bitbucket.org/gotoh/connect)
       * [foxyproxy](http://getfoxyproxy.org/) (optional)
       * [autossh](http://www.harding.motd.ca/autossh/) (optional)
@@ -43,7 +43,7 @@ Which will run a permanent tunnel on local 2424 to reconnect whenever disconnect
 ### SSH to internal network boxes
 In your `~/.ssh/config`:
 
-```
+```bash
 ### Tor tunnel - route any ssh connection to .onion through tor
 Host *.onion
 ProxyCommand connect -R remote -5 -S 127.0.0.1:9050 %h %p
@@ -62,11 +62,12 @@ In patters configure patters for your network:
 ```
 ^https?://.*\.{{domain}}\.com.*$
 ^https?:\/\/{{domain}}[a-z]{3,5}[0-9]{2,5}.*$
+...
 ```
 Select *user proxies bsaed on their pre-defined patterns and priorities*
 
 ### Git
-Create an alias git{{domain}}: 
+Create an alias *git{{domain}}*: 
 
 `alias git{{domain}}='git -c "http.proxy=socks://localhost:2424"'`
 
