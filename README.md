@@ -1,7 +1,7 @@
 # How to VPN without VPN
 This aims to solve the problem of connecting to internal networks without exclusively locking your connection to that one network as well as not having to 2FA with your phone, dongle, rain stick or a magic charm. You shoould be able to open your laptop anytime, anywhere and have secure encrypted access to the network.
 
-##Prerequesites
+## Prerequesites
 Things you will need on your journey:
 
   - Machine inside the network running *nix with:
@@ -14,7 +14,7 @@ Things you will need on your journey:
       * [foxyproxy](http://getfoxyproxy.org/) (optional)
       * [autossh](http://www.harding.motd.ca/autossh/) (optional)
 
-##Setup - Serverside
+## Setup - Serverside
 Enable (systemd) sshd and tor, or rc.d or whatever gets the daemons running on your machine. Configure tor run a hidden service forwarding to 22:
 
 Create a user, leave their public key in `~/.ssh/authorized_keys`
@@ -33,7 +33,7 @@ Grab the hostname of the now running hidden service: `cat /var/lib/tor/hidden_se
 
 Done!
 
-##Setup - Clientside
+## Setup - Clientside
 This varies with your needs. I have the following in `~/.xinitrc`:
 
 `autossh -f -M 20000 -Nn -D 2424 -l {{user}} {{onion-address-of-your-server}}.onion`
@@ -43,7 +43,7 @@ Which will run a permanent tunnel on local 2424 to reconnect whenever disconnect
 ### SSH to internal network boxes
 In your `~/.ssh/config`:
 
-```bash
+```sh
 ### Tor tunnel - route any ssh connection to .onion through tor
 Host *.onion
 ProxyCommand connect -R remote -5 -S 127.0.0.1:9050 %h %p
@@ -55,7 +55,7 @@ ProxyCommand connect -5 -S localhost:2424 %h %p
 
 ### Browsing internal services on the browser 
 
-Create a proxy in *foxyproxy* pointing to `localhost:2424` tick sock proxy v5.
+Create a proxy in *foxyproxy* pointing to `localhost:2424` tick `sock proxy v5`.
 
 In patters configure patters for your network:
 
@@ -64,11 +64,5 @@ In patters configure patters for your network:
 ^https?:\/\/{{domain}}[a-z]{3,5}[0-9]{2,5}.*$
 ...
 ```
-Select *user proxies bsaed on their pre-defined patterns and priorities*
+Select *use proxies based on their pre-defined patterns and priorities*
 
-### Git
-Create an alias *git{{domain}}*: 
-
-`alias git{{domain}}='git -c "http.proxy=socks://localhost:2424"'`
-
-Use the alias to access inernal git repo (http only)
