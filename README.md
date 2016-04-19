@@ -10,7 +10,7 @@ Things you will need on your journey:
   - Locally you will need: 
       * [openssh](http://www.openssh.com/)
       * [tor](https://www.torproject.org/)
-      * [connect](https://bitbucket.org/gotoh/connect)
+      * [ncat](https://nmap.org/ncat/)
       * [foxyproxy](http://getfoxyproxy.org/) (optional)
       * [autossh](http://www.harding.motd.ca/autossh/) (optional)
 
@@ -46,11 +46,11 @@ In your `~/.ssh/config`:
 ```sh
 ### Tor tunnel - route any ssh connection to .onion through tor
 Host *.onion
-ProxyCommand connect -R remote -5 -S 127.0.0.1:9050 %h %p
+ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:9050 %h %p
 
 ### When you ssh to any box inside the network, route that through ssh tunnel
 Host *.{{network-domain}}.com
-ProxyCommand connect -5 -S localhost:2424 %h %p
+ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:2424 %h %p
 ```
 
 ### Browsing internal services on the browser 
