@@ -46,7 +46,7 @@ Host *.onion
 
 ### Internal domain automatically gets proxied
 Host *.$INTERNAL_DOMAIN.com # Example: *.google.com
-        ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:9050 %h %p
+        ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:2424 %h %p
         User $INTERNAL_DOMAIN_USERNAME
 
 ### Serverside box running tor and ssh
