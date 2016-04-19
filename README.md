@@ -34,24 +34,34 @@ Grab the hostname of the now running hidden service: `cat /var/lib/tor/hidden_se
 Done!
 
 ## Setup - Clientside
-This varies with your needs. I have the following in `~/.xinitrc`:
+Example `.ssh/config`:
+```sh
+### Keepalive
+Host *
+        ServerAliveInterval 100
 
-`autossh -f -M 20000 -Nn -D 2424 -l {{user}} {{onion-address-of-your-server}}.onion`
+### Tor tunnel
+Host *.onion
+        ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:9050 %h %p
+
+### Internal domain automatically gets proxied
+Host *.$INTERNAL_DOMAIN.com # Example: *.google.com
+        ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:9050 %h %p
+        User $INTERNAL_DOMAIN_USERNAME
+
+### Serverside box running tor and ssh
+Host remote-tor
+        User $REMOTE_SERVER_USERNAME
+        Hostname $REMOTE_SERVER_ADDRESS # Example: 3g2upl4pq6kufc4m.onion
+        ForwardAgent yes
+        ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:9050 %h %p
+```
+
+Run the autossh tunnel. This varies with your needs. I have the following in `~/.xinitrc`:
+
+`autossh -f -M 20000 -Nn -D 2424 remote-tor`
 
 Which will run a permanent tunnel on local 2424 to reconnect whenever disconnected (sleep, no wifi)
-
-### SSH to internal network boxes
-In your `~/.ssh/config`:
-
-```sh
-### Tor tunnel - route any ssh connection to .onion through tor
-Host *.onion
-ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:9050 %h %p
-
-### When you ssh to any box inside the network, route that through ssh tunnel
-Host *.{{network-domain}}.com
-ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:2424 %h %p
-```
 
 ### Browsing internal services on the browser 
 
