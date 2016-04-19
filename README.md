@@ -39,6 +39,7 @@ Example `.ssh/config`:
 ### Keepalive
 Host *
         ServerAliveInterval 100
+	Compression yes # Important for connections over TOR
 
 ### Tor tunnel
 Host *.onion
