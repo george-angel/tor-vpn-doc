@@ -38,24 +38,24 @@ Example `.ssh/config`:
 ```sh
 ### Keepalive
 Host *
-        ServerAliveInterval 100
+	ServerAliveInterval 100
 	Compression yes # Important for connections over TOR
 
 ### Tor tunnel
 Host *.onion
-        ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:9050 %h %p
+	ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:9050 %h %p
 
 ### Internal domain automatically gets proxied
 Host *.$INTERNAL_DOMAIN.com # Example: *.google.com
-        ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:2424 %h %p
-        User $INTERNAL_DOMAIN_USERNAME
+	ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:2424 %h %p
+	User $INTERNAL_DOMAIN_USERNAME
 
 ### Serverside box running tor and ssh
 Host remote-tor
-        User $REMOTE_SERVER_USERNAME
-        Hostname $REMOTE_SERVER_ADDRESS # Example: 3g2upl4pq6kufc4m.onion
-        ForwardAgent yes
-        ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:9050 %h %p
+	User $REMOTE_SERVER_USERNAME
+	Hostname $REMOTE_SERVER_ADDRESS # Example: 3g2upl4pq6kufc4m.onion
+	ForwardAgent yes
+	ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:9050 %h %p
 ```
 
 Run the autossh tunnel. This varies with your needs. I have the following in `~/.xinitrc`:
