@@ -62,6 +62,21 @@ Run the autossh tunnel. This varies with your needs. I have the following in `~/
 
 Which will run a permanent tunnel on local 2424 to reconnect whenever disconnected (sleep, no wifi)
 
+Example SystemD unit file:
+
+```
+[Unit]
+Description=AutoSSH tunnel service on local port 2424
+After=network.target
+
+[Service]
+Environment="AUTOSSH_GATETIME=0"
+ExecStart=/usr/bin/autossh -M 0 -Nn -D 127.0.0.1:2424 remote-tor
+
+[Install]
+WantedBy=multi-user.target
+```
+
 ### Browsing internal services on the browser 
 
 Create a proxy in *foxyproxy* pointing to `localhost:2424` tick `sock proxy v5`.
