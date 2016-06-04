@@ -57,7 +57,7 @@ Host *
 
 Run the autossh tunnel. This varies with your needs. I have the following in `~/.xinitrc`:
 
-`autossh -f -M 20000 -Nn -D 2424 remote-tor`
+`autossh -f -M 20000 -Nn -D 127.0.0.1:2424 remote-tor`
 
 Which will run a permanent tunnel on local 2424 to reconnect whenever disconnected (sleep, no wifi)
 
